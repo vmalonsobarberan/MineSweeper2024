@@ -29,6 +29,8 @@ public class Board extends javax.swing.JPanel {
     private MineButton[][] buttons;
     
     private static MouseAdapter mouseAdapter = null;
+    
+    private FlagPanelInterface flagPanelInterface;
 
     /**
      * Creates new form Board
@@ -51,6 +53,10 @@ public class Board extends javax.swing.JPanel {
                     
                 }
         };
+    }
+    
+    public void setFlagPanelInterface(FlagPanelInterface flagPanelInterface) {
+        this.flagPanelInterface = flagPanelInterface;
     }
     
     public void openCell(int row, int col) {
@@ -100,6 +106,7 @@ public class Board extends javax.swing.JPanel {
                 panel.setLayout(new OverlayLayout(panel));
                                
                 MineButton button = new MineButton(row, col);
+                button.setFlagPanelInterface(flagPanelInterface);
                 buttons[row][col] = button;
                 button.addMouseListener(mouseAdapter);
                 panel.add(button);
