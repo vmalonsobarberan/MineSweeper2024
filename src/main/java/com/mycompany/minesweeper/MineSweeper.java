@@ -24,10 +24,11 @@ public class MineSweeper extends javax.swing.JFrame {
     public MineSweeper() {
         initComponents();
         board1.setFlagPanelInterface(flagPanel);
+        board1.setTimerInterface(timerText1);
         resetGame();
         //setResizable(false);
         setPlayIcon();
-        pack();
+        //pack();
     }
 
     /**
@@ -45,7 +46,7 @@ public class MineSweeper extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButtonPlay = new javax.swing.JButton();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jTextField1 = new javax.swing.JTextField();
+        timerText1 = new com.mycompany.minesweeper.TimerText();
         jPanel1 = new javax.swing.JPanel();
         board1 = new com.mycompany.minesweeper.Board();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -78,13 +79,10 @@ public class MineSweeper extends javax.swing.JFrame {
         jToolBar1.add(jButtonPlay);
         jToolBar1.add(filler2);
 
-        jTextField1.setEditable(false);
-        jTextField1.setBackground(new java.awt.Color(0, 0, 0));
-        jTextField1.setFont(new java.awt.Font("FreeSans", 0, 15)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 0, 51));
-        jTextField1.setText("00:00");
-        jTextField1.setFocusable(false);
-        jToolBar1.add(jTextField1);
+        timerText1.setBackground(new java.awt.Color(0, 0, 0));
+        timerText1.setForeground(new java.awt.Color(204, 0, 51));
+        timerText1.setText("00:00");
+        jToolBar1.add(timerText1);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
@@ -132,6 +130,7 @@ public class MineSweeper extends javax.swing.JFrame {
         int width = numCols * MineButton.BUTTON_SIZE;
         int height = numRows * MineButton.BUTTON_SIZE;
         flagPanel.reset();
+        timerText1.reset();
         board1.setLayout(new GridLayout(numRows, numCols));
         board1.initBoard();  
         board1.setPreferredSize(new Dimension(width, height));        
@@ -204,8 +203,8 @@ public class MineSweeper extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
+    private com.mycompany.minesweeper.TimerText timerText1;
     // End of variables declaration//GEN-END:variables
 
     private void setPlayIcon() {

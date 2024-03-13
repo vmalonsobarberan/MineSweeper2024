@@ -31,6 +31,8 @@ public class Board extends javax.swing.JPanel {
     private static MouseAdapter mouseAdapter = null;
     
     private FlagPanelInterface flagPanelInterface;
+    private TimerInterface timerInterface;
+    private boolean firstTime;
 
     /**
      * Creates new form Board
@@ -59,11 +61,20 @@ public class Board extends javax.swing.JPanel {
         this.flagPanelInterface = flagPanelInterface;
     }
     
+    public void setTimerInterface(TimerInterface timerInterface) {
+        this.timerInterface = timerInterface;
+    }
+    
     public void openCell(int row, int col) {
         if (!isValid(row, col)) return;
         MineButton button = buttons[row][col];
         if (button.getState() != ButtonState.CLOSED) return;
         button.open();
+        if (firstTime) {
+            timerInterface.reset();
+            timerInterface.start();
+            firstTime = false;
+        }
         if (matrix[row][col] == 0) {
             for (int incRow = -1; incRow <= 1; incRow++) {
                 for (int incCol = -1; incCol <= 1; incCol++) {
@@ -90,6 +101,7 @@ public class Board extends javax.swing.JPanel {
     }
     
     public void initBoard() {
+        firstTime =true;
         int numRows = ConfigData.getInstance().getNumRows();
         int numCols = ConfigData.getInstance().getNumCols();
         
