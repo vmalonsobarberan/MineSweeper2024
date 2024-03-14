@@ -86,6 +86,7 @@ public class Board extends javax.swing.JPanel {
     }
     
     private void processWin() {
+        gameOver = true;
         timerInterface.stop();
         JOptionPane.showMessageDialog(this, "You win");
     }
