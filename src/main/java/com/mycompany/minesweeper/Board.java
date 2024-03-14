@@ -87,12 +87,33 @@ public class Board extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "You wind");
     }
     
+    private void checkLose(int row, int col) {
+        if (matrix[row][col] == -1) {
+            processLose();
+        }
+    }
+    
+    private void processLose() {
+        int numRows = ConfigData.getInstance().getNumRows();
+        int numCols = ConfigData.getInstance().getNumCols();    
+        timerInterface.stop();
+        for (int row = 0; row < numRows; row ++) {
+            for (int col = 0; col < numCols; col ++) {
+                if (matrix[row][col] == -1) {
+                    buttons[row][col].open();
+                }
+            }
+        } 
+        JOptionPane.showMessageDialog(this, "You lose");
+    }
+    
     public void openCell(int row, int col) {
         if (!isValid(row, col)) return;
         MineButton button = buttons[row][col];
         if (button.getState() != ButtonState.CLOSED) return;
         button.open();
         checkWin();
+        checkLose(row, col);
         if (firstTime) {
             timerInterface.reset();
             timerInterface.start();
