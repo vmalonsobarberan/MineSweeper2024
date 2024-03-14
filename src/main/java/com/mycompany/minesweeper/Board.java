@@ -34,6 +34,7 @@ public class Board extends javax.swing.JPanel {
     private FlagPanelInterface flagPanelInterface;
     private TimerInterface timerInterface;
     private boolean firstTime;
+    private boolean gameOver;
 
     /**
      * Creates new form Board
@@ -45,6 +46,7 @@ public class Board extends javax.swing.JPanel {
         mouseAdapter = new MouseAdapter() {
             @Override
                 public void mouseClicked(MouseEvent e) {
+                    if (gameOver) return;
                     MineButton b = (MineButton) e.getComponent();
                     
                     if (e.getButton() == MineButton.LEFT_BUTTON) {
@@ -84,12 +86,14 @@ public class Board extends javax.swing.JPanel {
     }
     
     private void processWin() {
-        JOptionPane.showMessageDialog(this, "You wind");
+        timerInterface.stop();
+        JOptionPane.showMessageDialog(this, "You win");
     }
     
     private void checkLose(int row, int col) {
         if (matrix[row][col] == -1) {
-            processLose();
+            gameOver = true;
+            processLose();            
         }
     }
     
@@ -112,8 +116,11 @@ public class Board extends javax.swing.JPanel {
         MineButton button = buttons[row][col];
         if (button.getState() != ButtonState.CLOSED) return;
         button.open();
-        checkWin();
         checkLose(row, col);
+        if (!gameOver) {
+            checkWin();
+        }
+        
         if (firstTime) {
             timerInterface.reset();
             timerInterface.start();
@@ -146,6 +153,7 @@ public class Board extends javax.swing.JPanel {
     
     public void initBoard() {
         firstTime =true;
+        gameOver = false;
         int numRows = ConfigData.getInstance().getNumRows();
         int numCols = ConfigData.getInstance().getNumCols();
         
